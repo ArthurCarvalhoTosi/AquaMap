@@ -1,0 +1,117 @@
+# =============================================================================
+# Ambiente, segredos e credenciais — nunca versionar
+# =============================================================================
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.ppk
+*.keystore
+*.jks
+**/credentials.json
+**/secrets.json
+*.secrets.json
+.npmrc
+.yarnrc.yml
+
+# ASP.NET Core — overrides locais e perfis de publicação com senhas
+**/appsettings.*.local.json
+**/Properties/PublishProfiles/*.pubxml.user
+
+# =============================================================================
+# .NET — build, cache e artefatos de teste
+# =============================================================================
+**/[Bb]in/
+**/[Oo]bj/
+**/out/
+**/TestResults/
+**/coverage/
+*.coverage
+*.coveragexml
+coverage.json
+*.snupkg
+project.lock.json
+artifacts/
+*.db
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+
+# =============================================================================
+# Frontend (Node / Vite) — dependências, build e caches
+# =============================================================================
+**/node_modules/
+**/dist/
+**/dist-ssr/
+.pnpm-store/
+**/.vite/
+**/.turbo/
+**/.parcel-cache/
+**/.cache/
+**/.eslintcache
+*.tsbuildinfo
+.npm/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# =============================================================================
+# Logs e dumps
+# =============================================================================
+*.log
+*.log.*
+logs/
+**/Logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =============================================================================
+# IDE e ferramentas
+# =============================================================================
+.vs/
+# Exceções: só fazem efeito com .vscode/* (não ignore a pasta inteira)
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.user
+*.userosscache
+*.rsuser
+*.sln.docstates
+*.swp
+*.swo
+*~
+
+# =============================================================================
+# Sistema operacional
+# =============================================================================
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =============================================================================
+# Conteúdo gerado / uploads (ajuste se precisar versionar assets específicos)
+# =============================================================================
+backend/wwwroot/images/*
+!backend/wwwroot/images/.gitkeep
