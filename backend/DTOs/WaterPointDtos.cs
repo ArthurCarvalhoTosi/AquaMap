@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using AquaMap.API.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace AquaMap.API.DTOs;
 
@@ -14,8 +15,9 @@ public class CreateWaterPointRequest
     [Required, MaxLength(500)]
     public string Description { get; set; } = string.Empty;
 
-    [MaxLength(300)]
-    public string Address { get; set; } = string.Empty;
+    /// <summary>Opcional; evita validação implícita de referência não-nula do modelo.</summary>
+    [ValidateNever]
+    public string? Address { get; set; }
 
     public IFormFile? Photo { get; set; }
 }

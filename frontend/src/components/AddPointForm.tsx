@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { X, MapPin, Camera, Loader2, MapPinned } from "lucide-react";
 import api from "../services/api";
+import { getApiErrorMessage } from "../utils/apiError";
 
 /** Aceita " -22,9 " ou "-22.9" (pt-BR ou en) */
 function parseCoordinateInput(raw: string): number {
@@ -103,12 +104,10 @@ export default function AddPointForm({
     if (photo) formData.append("photo", photo);
 
     try {
-      await api.post("/waterpoints", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await api.post("/waterpoints", formData);
       onCreated();
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Erro ao cadastrar ponto.");
+    } catch (err: unknown) {
+      setError(getApiErrorMessage(err, "Erro ao cadastrar ponto."));
     } finally {
       setLoading(false);
     }
@@ -132,7 +131,7 @@ export default function AddPointForm({
 
         <form onSubmit={handleSubmit} className="px-6 pb-6 pt-4 space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm whitespace-pre-line">
               {error}
             </div>
           )}

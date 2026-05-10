@@ -51,11 +51,14 @@ public class WaterPointsController(AppDbContext db, IWebHostEnvironment env) : C
 
     [Authorize]
     [HttpPost]
-    [Consumes("multipart/form-data")]
     public async Task<ActionResult<WaterPointResponse>> Create([FromForm] CreateWaterPointRequest request)
     {
         var userId = GetUserId();
         string? photoUrl = null;
+
+        var addressTrimmed = request.Address?.Trim();
+        if (addressTrimmed is { Length: > 300 })
+            return BadRequest(new { message = "Endereço pode ter no máximo 300 caracteres." });
 
         if (request.Photo is { Length: > 0 })
         {
@@ -67,7 +70,7 @@ public class WaterPointsController(AppDbContext db, IWebHostEnvironment env) : C
             Latitude = request.Latitude,
             Longitude = request.Longitude,
             Description = request.Description.Trim(),
-            Address = request.Address.Trim(),
+            Address = addressTrimmed ?? string.Empty,
             PhotoUrl = photoUrl,
             CreatedByUserId = userId
         };

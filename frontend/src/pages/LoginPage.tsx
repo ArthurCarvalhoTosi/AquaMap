@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { getApiErrorMessage } from "../utils/apiError";
 import { Droplets, Phone, Lock, ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
@@ -18,9 +19,9 @@ export default function LoginPage() {
     try {
       await login(phone, password);
       navigate("/");
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(
-        err.response?.data?.message || "Erro ao entrar. Verifique seus dados."
+        getApiErrorMessage(err, "Erro ao entrar. Verifique seus dados.")
       );
     } finally {
       setLoading(false);
@@ -55,7 +56,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
+              <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm whitespace-pre-line">
                 {error}
               </div>
             )}

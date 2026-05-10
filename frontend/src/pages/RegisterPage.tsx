@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { getApiErrorMessage } from "../utils/apiError";
 import { Droplets, User, Phone, Lock, ArrowLeft } from "lucide-react";
 
 export default function RegisterPage() {
@@ -19,9 +20,9 @@ export default function RegisterPage() {
     try {
       await register(name, phone, password);
       navigate("/");
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(
-        err.response?.data?.message || "Erro ao cadastrar. Tente novamente."
+        getApiErrorMessage(err, "Erro ao cadastrar. Tente novamente.")
       );
     } finally {
       setLoading(false);
@@ -54,7 +55,7 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
+              <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm whitespace-pre-line">
                 {error}
               </div>
             )}

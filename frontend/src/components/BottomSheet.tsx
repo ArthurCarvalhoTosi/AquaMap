@@ -8,7 +8,6 @@ import {
   Clock,
   MapPin,
   ThumbsUp,
-  Camera,
 } from "lucide-react";
 import type { WaterPoint } from "../types";
 import { WaterPointStatus, InteractionType } from "../types";
@@ -77,18 +76,30 @@ export default function BottomSheet({ point, onClose, onUpdated }: Props) {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 animate-slide-up">
+    <div className="fixed inset-0 z-50">
       <div
-        className="fixed inset-0 bg-black/20"
+        className="absolute inset-0 bg-black/20 lg:bg-black/30"
         onClick={onClose}
+        aria-hidden
       />
-      <div className="relative bg-white rounded-t-3xl shadow-2xl max-h-[85vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white rounded-t-3xl px-6 pt-3 pb-2 flex items-center justify-between border-b border-gray-100">
-          <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto absolute left-1/2 -translate-x-1/2 top-2" />
-          <div />
+      <div
+        className={[
+          "absolute z-10 flex flex-col bg-white shadow-2xl overflow-y-auto",
+          // Mobile: folha inferior em tela cheia (largura)
+          "inset-x-0 bottom-0 max-h-[85vh] rounded-t-3xl animate-slide-up",
+          // Desktop: coluna à esquerda, largura fixa — mapa continua visível à direita
+          "lg:inset-x-auto lg:left-0 lg:right-auto lg:top-0 lg:bottom-0 lg:max-h-none lg:h-full",
+          "lg:w-full lg:max-w-md lg:rounded-none lg:rounded-r-3xl lg:animate-none",
+        ].join(" ")}
+      >
+        <div className="sticky top-0 z-[1] bg-white rounded-t-3xl lg:rounded-none lg:rounded-tr-3xl px-6 pt-3 pb-2 flex items-center justify-between border-b border-gray-100">
+          <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto absolute left-1/2 -translate-x-1/2 top-2 lg:hidden" />
+          <div className="hidden lg:block" />
           <button
+            type="button"
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors ml-auto"
+            aria-label="Fechar"
           >
             <X size={20} className="text-gray-500" />
           </button>
@@ -96,11 +107,13 @@ export default function BottomSheet({ point, onClose, onUpdated }: Props) {
 
         <div className="px-6 pb-6 space-y-4">
           {point.photoUrl && (
-            <img
-              src={point.photoUrl}
-              alt="Foto do ponto"
-              className="w-full h-48 object-cover rounded-2xl mt-2"
-            />
+            <div className="mt-2 rounded-2xl bg-gray-100 overflow-hidden lg:flex lg:items-center lg:justify-center lg:max-h-[min(42vh,360px)] lg:py-2">
+              <img
+                src={point.photoUrl}
+                alt="Foto do ponto"
+                className="w-full h-48 object-cover lg:h-auto lg:max-h-[min(42vh,360px)] lg:w-auto lg:max-w-full lg:object-contain"
+              />
+            </div>
           )}
 
           <div>
